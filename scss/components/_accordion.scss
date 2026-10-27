@@ -1,0 +1,117 @@
+// ============================================
+// _accordion.scss — Componente Acordeón BEM (FAQ & Footer)
+// ============================================
+// Soporte para <details> y <summary> nativos HTML5
+// ============================================
+
+@use 'sass:color';
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// ---- FAQ ACCORDION ITEM ----
+.faq__item {
+  border-bottom: 1px solid $color-gray-light;
+  transition: background-color $transition-fast;
+
+  &:first-child {
+    border-top: 1px solid $color-gray-light;
+  }
+
+  // Estado abierto nativo
+  &[open] {
+    .faq__question-icon {
+      transform: rotate(45deg);
+      color: $color-accent-green;
+    }
+
+    .faq__question-text {
+      color: $color-navy;
+    }
+  }
+}
+
+// ---- Summary Header ----
+.faq__question {
+  @include flex-config(row, space-between, center);
+  padding: $spacing-md 0;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  outline: none;
+  transition: color $transition-fast;
+
+  // Quitar la flecha por defecto del navegador
+  &::-webkit-details-marker,
+  &::marker {
+    display: none;
+  }
+
+  &:hover,
+  &:focus-visible {
+    .faq__question-text {
+      color: $color-navy;
+    }
+
+    .faq__question-icon {
+      color: $color-navy;
+    }
+  }
+
+  &-text {
+    @include typography($font-sans, $fs-base, $fw-semibold, 1.4);
+    color: $color-text;
+    transition: color $transition-fast;
+    padding-right: $spacing-sm;
+
+    @include respond-to(tablet-up) {
+      font-size: $fs-md;
+    }
+  }
+
+  &-icon {
+    @include flex-config(row, center, center);
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    color: $color-navy;
+    transition: transform $transition-base, color $transition-base;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+// ---- Answer Panel ----
+.faq__answer {
+  padding-bottom: $spacing-md;
+  padding-right: $spacing-lg;
+  animation: faqFadeIn 0.3s ease-in-out;
+
+  p {
+    @include typography($font-sans, $fs-sm, $fw-regular, 1.7);
+    color: $color-gray-dark;
+    margin-bottom: $spacing-xs;
+
+    @include respond-to(desktop-up) {
+      font-size: $fs-base;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Animación de entrada suave
+@keyframes faqFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

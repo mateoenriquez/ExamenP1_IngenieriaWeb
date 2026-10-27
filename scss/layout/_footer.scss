@@ -1,0 +1,323 @@
+// ============================================
+// _footer.scss — Layout Footer (Sundance Spas)
+// ============================================
+// CSS Grid: .footer__top-bar (2 cols mobile, 4 cols desktop)
+//           .footer__main-container (1 col mobile, 1.5fr repeat(4, 1fr) desktop)
+// Flexbox:  .footer__top-item, .footer__bottom-container
+// ============================================
+
+@use 'sass:color';
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.footer {
+  background-color: $color-navy-dark;
+  color: $color-white;
+
+  // ============================================
+  // 1. FOOTER TOP BAR (4 Value Props)
+  // ============================================
+  &__top-bar {
+    background-color: $color-navy;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: $spacing-lg 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    @include respond-to(desktop-up) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  // CSS Grid obligatorio: 2x2 en móvil, 4 en desktop
+  &__top-container {
+    @include container;
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-md;
+
+    @include respond-to(desktop-up) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: $spacing-lg;
+    }
+  }
+
+  &__top-item {
+    @include flex-config(row, flex-start, center, $spacing-sm);
+    padding: $spacing-xs 0;
+  }
+
+  &__top-icon {
+    @include flex-config(row, center, center);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: $color-white;
+    flex-shrink: 0;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  &__top-text {
+    @include flex-config(column, center, flex-start);
+  }
+
+  &__top-label {
+    @include typography($font-sans, $fs-sm, $fw-semibold);
+    color: $color-white;
+    line-height: 1.3;
+  }
+
+  &__top-desc {
+    @include typography($font-sans, $fs-xs, $fw-regular);
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.4;
+  }
+
+  // ============================================
+  // 2. FOOTER MAIN (Brand + 4 Link Columns)
+  // ============================================
+  &__main {
+    padding: $spacing-xl 0;
+    display: grid;
+    grid-template-columns: 1fr;
+
+    @include respond-to(desktop-up) {
+      padding: $spacing-xxl 0;
+      grid-template-columns: 1.5fr repeat(4, 1fr);
+    }
+  }
+
+  // CSS Grid obligatorio: 1 col en móvil, 1.5fr repeat(4, 1fr) en desktop
+  &__main-container {
+    @include container;
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+
+    @include respond-to(desktop-up) {
+      grid-template-columns: 1.5fr repeat(4, 1fr);
+      gap: $spacing-xl;
+      align-items: start;
+    }
+  }
+
+  // Brand / Logo column
+  &__brand {
+    @include flex-config(column, flex-start, flex-start, $spacing-sm);
+    margin-bottom: $spacing-sm;
+
+    @include respond-to(desktop-up) {
+      margin-bottom: 0;
+    }
+  }
+
+  &__brand-logo {
+    display: inline-block;
+  }
+
+  &__brand-img {
+    height: 32px;
+    width: auto;
+  }
+
+  &__brand-tagline {
+    @include typography($font-sans, $fs-sm, $fw-light);
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0;
+  }
+
+  // Links wrapper
+  &__links {
+    display: contents;
+
+    @include respond-to(tablet) {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+
+  // Individual link column
+  &__column {
+    @include respond-to(tablet) {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  // Details element for mobile accordion
+  &__column-details {
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    @include respond-to(desktop-up) {
+      pointer-events: none; // No colapsable en desktop
+    }
+
+    // Toggle icon in mobile
+    &[open] .footer__column-icon {
+      transform: rotate(45deg);
+      color: $color-accent-green;
+    }
+  }
+
+  &__column-title {
+    @include typography($font-sans, $fs-sm, $fw-bold);
+    color: $color-white;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: $spacing-sm 0;
+    cursor: pointer;
+    list-style: none;
+    @include flex-config(row, space-between, center);
+    user-select: none;
+
+    &::-webkit-details-marker,
+    &::marker {
+      display: none;
+    }
+
+    @include respond-to(desktop-up) {
+      cursor: default;
+      padding-top: 0;
+      padding-bottom: $spacing-md;
+    }
+  }
+
+  &__column-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.6);
+    transition: transform $transition-base, color $transition-base;
+
+    @include respond-to(desktop-up) {
+      display: none;
+    }
+  }
+
+  &__column-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 $spacing-md 0;
+    @include flex-config(column, flex-start, flex-start, $spacing-xs);
+
+    @include respond-to(desktop-up) {
+      padding-bottom: 0;
+      gap: $spacing-xs;
+    }
+  }
+
+  &__column-item {
+    width: 100%;
+  }
+
+  &__column-link {
+    @include typography($font-sans, $fs-sm, $fw-regular);
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color $transition-fast, transform $transition-fast;
+    display: inline-block;
+    padding: 2px 0;
+
+    &:hover,
+    &:focus {
+      color: $color-white;
+      transform: translateX(3px);
+    }
+  }
+
+  // ============================================
+  // 3. FOOTER BOTTOM (Legal + Social + Locale)
+  // ============================================
+  &__bottom {
+    background-color: color.adjust($color-navy-dark, $lightness: -3%);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: $spacing-md 0;
+  }
+
+  &__bottom-container {
+    @include container;
+    @include flex-config(column, center, center, $spacing-md);
+    text-align: center;
+
+    @include respond-to(desktop-up) {
+      @include flex-config(row, space-between, center);
+      text-align: left;
+    }
+  }
+
+  // Locale Selector
+  &__locale {
+    @include flex-config(row, center, center, $spacing-xs);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  &__locale-select {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: $border-radius-sm;
+    padding: 0.35rem 0.75rem;
+    font-size: $fs-xs;
+    cursor: pointer;
+
+    option {
+      background-color: $color-navy-dark;
+      color: $color-white;
+    }
+  }
+
+  // Copyright
+  &__copyright {
+    @include typography($font-sans, $fs-xs, $fw-regular);
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0;
+  }
+
+  &__legal-link {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    margin: 0 4px;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $color-white;
+      text-decoration: underline;
+    }
+  }
+
+  // Social Links
+  &__social {
+    @include flex-config(row, center, center, $spacing-sm);
+  }
+
+  &__social-link {
+    @include flex-config(row, center, center);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    transition: all $transition-fast;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $color-accent-green;
+      color: $color-white;
+      transform: translateY(-2px);
+    }
+  }
+}

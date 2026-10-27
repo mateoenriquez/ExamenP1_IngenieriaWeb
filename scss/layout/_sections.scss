@@ -1,0 +1,644 @@
+// ============================================
+// _sections.scss — Intro, Difference, Reviews,
+//                   FAQ, Articles, Highlights
+// ============================================
+// CSS Grid: intro__container, reviews__grid,
+//           articles__grid, highlights__grid
+// Flexbox:  faq__header, articles__header
+// ============================================
+
+@use 'sass:color';
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// ============================================
+// INTRO SECTION
+// ============================================
+.intro {
+  @include section-padding;
+  background-color: $color-white;
+
+  // CSS Grid: 1col mobile → 2col desktop
+  &__container {
+    @include container;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+
+    @include respond-to(desktop-up) {
+      grid-template-columns: 1fr 1fr;
+      gap: $spacing-xxl;
+      align-items: center;
+    }
+  }
+
+  &__left {
+    @include flex-config(column, flex-start, flex-start, $spacing-md);
+  }
+
+  &__icon {
+    @include flex-config(row, center, center);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: $color-bg-light;
+
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  &__headline {
+    @include typography($font-serif, $fs-xl, $fw-bold, 1.25);
+    color: $color-navy;
+    margin-bottom: 0;
+
+    @include respond-to(desktop-up) {
+      font-size: $fs-xxl;
+    }
+
+    em {
+      font-style: italic;
+      color: $color-navy;
+    }
+  }
+
+  &__right {
+    @include flex-config(column, flex-start, flex-start, $spacing-md);
+  }
+
+  &__text {
+    @include typography($font-sans, $fs-base, $fw-regular, 1.7);
+    color: $color-gray-dark;
+    margin-bottom: 0;
+
+    @include respond-to(desktop-up) {
+      font-size: $fs-md;
+    }
+  }
+
+  &__btn {
+    margin-top: $spacing-xs;
+  }
+}
+
+// ============================================
+// THE SUNDANCE DIFFERENCE — CAROUSEL SECTION
+// ============================================
+.difference {
+  @include section-padding;
+  background-color: $color-bg-light;
+
+  &__container {
+    @include container;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: $spacing-xl;
+
+    @include respond-to(desktop-up) {
+      margin-bottom: $spacing-xxl;
+    }
+  }
+
+  &__title {
+    @include typography($font-serif, $fs-xl, $fw-bold, 1.2);
+    color: $color-navy;
+    margin-bottom: $spacing-sm;
+
+    @include respond-to(desktop-up) {
+      font-size: $fs-xxl;
+    }
+  }
+
+  &__subtitle {
+    @include typography($font-sans, $fs-base, $fw-regular, 1.6);
+    color: $color-gray-dark;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  // Grid: scrollable on mobile, 3 cols on desktop
+  &__grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 85%;
+    gap: $spacing-md;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: $spacing-sm;
+
+    // Hide scrollbar
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @include respond-to(tablet-up) {
+      grid-auto-columns: 45%;
+    }
+
+    @include respond-to(desktop-up) {
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-flow: row;
+      overflow-x: visible;
+      scroll-snap-type: none;
+      padding-bottom: 0;
+    }
+  }
+
+  &__card {
+    scroll-snap-align: start;
+    background-color: $color-white;
+    border-radius: $border-radius-md;
+    overflow: hidden;
+    box-shadow: $shadow-card;
+    transition: transform $transition-base, box-shadow $transition-base;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: $shadow-lg;
+    }
+  }
+
+  &__card-image-box {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+
+    @include respond-to(desktop-up) {
+      height: 260px;
+    }
+  }
+
+  &__card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform $transition-slow;
+
+    .difference__card:hover & {
+      transform: scale(1.05);
+    }
+  }
+
+  &__card-body {
+    padding: $spacing-md;
+  }
+
+  &__card-title {
+    @include typography($font-serif, $fs-lg, $fw-bold, 1.3);
+    color: $color-navy;
+    margin-bottom: $spacing-xs;
+
+    @include respond-to(desktop-up) {
+      font-size: $fs-lg;
+    }
+  }
+
+  &__card-text {
+    @include typography($font-sans, $fs-sm, $fw-regular, 1.6);
+    color: $color-gray-dark;
+    margin-bottom: 0;
+  }
+}
+
+// ============================================
+// REVIEWS / TESTIMONIALS SECTION
+// ============================================
+.reviews {
+  position: relative;
+  @include section-padding;
+  overflow: hidden;
+
+  // Full-width background image
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  &__bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      135deg,
+      rgba(13, 27, 51, 0.88) 0%,
+      rgba(20, 40, 75, 0.82) 100%
+    );
+  }
+
+  &__container {
+    position: relative;
+    z-index: 1;
+    @include container;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: $spacing-lg;
+  }
+
+  &__label {
+    @include typography($font-sans, $fs-sm, $fw-semibold);
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__title {
+    @include typography($font-serif, $fs-xl, $fw-bold, 1.2);
+    color: $color-white;
+    margin-bottom: 0;
+
+    @include respond-to(desktop-up) {
+      font-size: $fs-xxl;
+    }
+  }
+
+  // ---- Filter Pills ----
+  &__filters {
+    @include flex-config(row, center, center, $spacing-xs);
+    flex-wrap: wrap;
+    margin-bottom: $spacing-xl;
+  }
+
+  &__filter {
+    @include typography($font-sans, $fs-xs, $fw-semibold);
+    padding: 0.5rem 1.25rem;
+    border-radius: $border-radius-pill;
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.85);
+    cursor: pointer;
+    transition: all $transition-fast;
+    white-space: nowrap;
+
+    &:hover {
+      border-color: $color-white;
+      color: $color-white;
+    }
+
+    &--active {
+      background-color: $color-white;
+      color: $color-navy;
+      border-color: $color-white;
+    }
+  }
+
+  // CSS Grid: 1 col mobile → 3 col desktop
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+
+    @include respond-to(tablet-up) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond-to(desktop-up) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+// ---- Review Card ----
+.review-card {
+  background-color: $color-white;
+  border-radius: $border-radius-md;
+  padding: $spacing-md;
+  @include flex-config(column, flex-start, flex-start, $spacing-sm);
+  transition: transform $transition-base;
+
+  &:hover {
+    transform: translateY(-3px);
+  }
+
+  &__header {
+    @include flex-config(row, space-between, center);
+    width: 100%;
+  }
+
+  &__name {
+    @include typography($font-sans, $fs-sm, $fw-bold);
+    color: $color-navy;
+  }
+
+  &__stars {
+    @include flex-config(row, flex-start, center, 2px);
+  }
+
+  &__star {
+    display: block;
+  }
+
+  &__text {
+    @include typography($font-sans, $fs-sm, $fw-regular, 1.65);
+    color: $color-gray-dark;
+    margin-bottom: 0;
+    flex-grow: 1;
+  }
+
+  &__model {
+    @include typography($font-sans, $fs-xs, $fw-semibold);
+    color: $color-accent-green;
+    text-decoration: none;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: color.adjust($color-accent-green, $lightness: -10%);
+    }
+  }
+}
+
+// ============================================
+// FAQ — FREQUENTLY ASKED QUESTIONS
+// ============================================
+.faq {
+  @include section-padding;
+  background-color: $color-white;
+
+  &__container {
+    @include container($max-width-narrow);
+  }
+
+  // Flexbox: title left, button right
+  &__header {
+    @include flex-config(row, space-between, center);
+    margin-bottom: $spacing-xl;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+  }
+
+  &__title {
+    @include typography($font-serif, $fs-xl, $fw-bold, 1.2);
+    color: $color-navy;
+    margin-bottom: 0;
+
+    @include respond-to(desktop-up) {
+      font-size: $fs-xxl;
+    }
+  }
+
+  &__view-more {
+    flex-shrink: 0;
+  }
+
+  &__list {
+    @include flex-config(column, flex-start, stretch);
+  }
+}
+
+// ============================================
+// ARTICLES — FEATURED BLOG POSTS
+// ============================================
+.articles {
+  @include section-padding;
+  background-color: $color-beige;
+
+  &__container {
+    @include container;
+  }
+
+  // Flexbox: title left, button right
+  &__header {
+    @include flex-config(row, space-between, center);
+    margin-bottom: $spacing-xl;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+  }
+
+  &__title {
+    @include typography($font-serif, $fs-xl, $fw-bold, 1.2);
+    color: $color-navy;
+    margin-bottom: 0;
+
+    @include respond-to(desktop-up) {
+      font-size: $fs-xxl;
+    }
+  }
+
+  &__view-all {
+    flex-shrink: 0;
+  }
+
+  // CSS Grid: 1 col mobile → 3 col desktop
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+
+    @include respond-to(tablet-up) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond-to(desktop-up) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+// ---- Article Card ----
+.article-card {
+  background-color: $color-white;
+  border-radius: $border-radius-md;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+  transition: transform $transition-base, box-shadow $transition-base;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-md;
+  }
+
+  &__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &__image-box {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+
+    @include respond-to(desktop-up) {
+      height: 220px;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform $transition-slow;
+
+    .article-card:hover & {
+      transform: scale(1.05);
+    }
+  }
+
+  &__body {
+    padding: $spacing-md;
+  }
+
+  &__title {
+    @include typography($font-serif, $fs-base, $fw-bold, 1.35);
+    color: $color-navy;
+    margin-bottom: $spacing-sm;
+
+    @include respond-to(desktop-up) {
+      font-size: $fs-md;
+    }
+  }
+
+  &__cta {
+    @include flex-config(row, flex-start, center, $spacing-xs);
+    @include typography($font-sans, $fs-sm, $fw-semibold);
+    color: $color-navy;
+    transition: color $transition-fast;
+
+    .article-card:hover & {
+      color: $color-accent-green;
+    }
+
+    svg {
+      transition: transform $transition-fast;
+
+      .article-card:hover & {
+        transform: translateX(4px);
+      }
+    }
+  }
+}
+
+// ============================================
+// HIGHLIGHTS — BOTTOM GRID
+// ============================================
+.highlights {
+  @include section-padding;
+  background-color: $color-navy-dark;
+
+  &__container {
+    @include container;
+  }
+
+  &__title {
+    @include typography($font-serif, $fs-xl, $fw-bold, 1.2);
+    color: $color-white;
+    text-align: center;
+    margin-bottom: $spacing-xl;
+
+    @include respond-to(desktop-up) {
+      font-size: $fs-xxl;
+      margin-bottom: $spacing-xxl;
+    }
+  }
+
+  // CSS Grid: 1 col mobile → 3 col desktop
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+
+    @include respond-to(tablet-up) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond-to(desktop-up) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  // ---- Highlight Card (image + overlay + text) ----
+  &__card {
+    position: relative;
+    border-radius: $border-radius-md;
+    overflow: hidden;
+    min-height: 280px;
+    cursor: pointer;
+
+    @include respond-to(desktop-up) {
+      min-height: 340px;
+    }
+
+    &:hover {
+      .highlights__card-image {
+        transform: scale(1.08);
+      }
+
+      .highlights__card-overlay {
+        background: linear-gradient(
+          to top,
+          rgba(13, 27, 51, 0.9) 0%,
+          rgba(13, 27, 51, 0.3) 100%
+        );
+      }
+    }
+  }
+
+  &__card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform $transition-slow;
+  }
+
+  &__card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to top,
+      rgba(13, 27, 51, 0.85) 0%,
+      rgba(13, 27, 51, 0.1) 60%
+    );
+    transition: background $transition-base;
+  }
+
+  &__card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: $spacing-md;
+    z-index: 2;
+
+    @include respond-to(desktop-up) {
+      padding: $spacing-lg;
+    }
+  }
+
+  &__card-title {
+    @include typography($font-serif, $fs-lg, $fw-bold, 1.25);
+    color: $color-white;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__card-text {
+    @include typography($font-sans, $fs-sm, $fw-regular, 1.55);
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 0;
+  }
+}

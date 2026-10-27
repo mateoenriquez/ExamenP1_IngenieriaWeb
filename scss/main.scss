@@ -1,0 +1,31 @@
+// ============================================
+// main.scss — Punto de entrada principal (Sundance Spas)
+// ============================================
+//
+// Arquitectura SCSS organizada en capas (7-1 Pattern adaptado):
+//
+// 1. Abstracts  → Variables, Mixins (sin output CSS directo)
+// 2. Base       → Reset, tipografía global
+// 3. Components → Botones, tarjetas, acordeones, etc.
+// 4. Layout     → Header, footer, secciones, series
+//
+// ============================================
+
+// ---- 1. Abstracts (no generan CSS por sí solos) ----
+// Se importan a través de @use dentro de cada partial.
+// No se incluyen aquí directamente con @use porque
+// cada archivo ya importa lo que necesita.
+
+// ---- 2. Base ----
+@use 'base/reset';
+
+// ---- 3. Components ----
+@use 'components/buttons';
+@use 'components/spa-card';
+@use 'components/accordion';
+
+// ---- 4. Layout ----
+@use 'layout/header';
+@use 'layout/sections';
+@use 'layout/series';
+@use 'layout/footer';

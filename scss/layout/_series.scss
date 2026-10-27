@@ -1,0 +1,199 @@
+// ============================================
+// _series.scss — Series Showcase Rows (Sundance Spas)
+// ============================================
+// CSS Grid: .series-row — 1col mobile → 2col desktop
+// ============================================
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// ---- SERIES SHOWCASE WRAPPER ----
+.series-showcase {
+  background-color: $color-white;
+}
+
+// ---- SERIES ROW — CSS GRID ----
+.series-row {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  @include respond-to(desktop-up) {
+    grid-template-columns: 380px 1fr;
+    min-height: 520px;
+  }
+
+  @include respond-to(wide-up) {
+    grid-template-columns: 4fr 8fr;
+  }
+
+  // Modifier: reverse layout (banner on the right)
+  &--reverse {
+    @include respond-to(desktop-up) {
+      direction: rtl;
+
+      > * {
+        direction: ltr;
+      }
+    }
+  }
+
+  // Alternate row backgrounds
+  &:nth-child(even) {
+    background-color: $color-bg-light;
+  }
+
+  &:nth-child(odd) {
+    background-color: $color-white;
+  }
+}
+
+// ---- SERIES BANNER (image + navy info) ----
+.series-banner {
+  @include flex-config(column, flex-start, stretch);
+
+  // Lifestyle image
+  &__image-box {
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+
+    @include respond-to(desktop-up) {
+      flex: 1;
+      height: auto;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform $transition-slow;
+
+    .series-banner:hover & {
+      transform: scale(1.03);
+    }
+  }
+
+  // Navy info block
+  &__info {
+    background-color: $color-navy;
+    padding: $spacing-md;
+    @include flex-config(column, center, flex-start, $spacing-sm);
+
+    @include respond-to(desktop-up) {
+      padding: $spacing-lg;
+    }
+  }
+
+  &__title {
+    @include typography($font-serif, $fs-lg, $fw-bold, 1.2);
+    color: $color-white;
+    margin-bottom: 0;
+
+    @include respond-to(desktop-up) {
+      font-size: $fs-xl;
+    }
+  }
+
+  &__text {
+    @include typography($font-sans, $fs-sm, $fw-regular, 1.6);
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0;
+  }
+
+  &__link {
+    @include flex-config(row, flex-start, center, $spacing-xs);
+    @include typography($font-sans, $fs-sm, $fw-semibold);
+    color: $color-white;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    transition: opacity $transition-fast;
+    margin-top: $spacing-xs;
+
+    &:hover {
+      opacity: 0.8;
+      color: $color-white;
+
+      svg {
+        transform: translateX(4px);
+      }
+    }
+
+    svg {
+      transition: transform $transition-fast;
+    }
+  }
+}
+
+// ---- SERIES PRODUCTS (card grid + scrollbar) ----
+.series-products {
+  padding: $spacing-md;
+
+  @include respond-to(desktop-up) {
+    padding: $spacing-lg $spacing-xl;
+    @include flex-config(column, center, stretch);
+  }
+
+  // Product cards grid — horizontal scroll on mobile, 3-col grid on desktop
+  &__grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 75%;
+    gap: $spacing-md;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: $spacing-sm;
+
+    // Hide native scrollbar
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @include respond-to(tablet-up) {
+      grid-auto-columns: 42%;
+    }
+
+    @include respond-to(desktop-up) {
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-flow: row;
+      overflow-x: visible;
+      scroll-snap-type: none;
+      padding-bottom: 0;
+    }
+  }
+
+  // ---- Scrollbar Indicator ----
+  &__scrollbar {
+    margin-top: $spacing-sm;
+    @include flex-config(row, center, center);
+
+    @include respond-to(desktop-up) {
+      display: none;
+    }
+  }
+
+  &__scrollbar-track {
+    display: block;
+    width: 80px;
+    height: 3px;
+    background-color: $color-gray-light;
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__scrollbar-thumb {
+    display: block;
+    width: 32px;
+    height: 100%;
+    background-color: $color-navy;
+    border-radius: 2px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: left $transition-fast;
+  }
+}

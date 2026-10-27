@@ -1,0 +1,163 @@
+// ============================================
+// _buttons.scss — Componente Botón BEM (Sundance Spas)
+// ============================================
+
+@use 'sass:color';
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// ---- Bloque: .btn ----
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  padding: 0.75rem 1.75rem;
+  font-family: $font-sans;
+  font-size: $fs-sm;
+  font-weight: $fw-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-decoration: none;
+  border-radius: $border-radius-sm;
+  cursor: pointer;
+  transition: all $transition-base;
+  line-height: 1.4;
+  white-space: nowrap;
+
+  // ---- Elementos ----
+
+  // Icono dentro del botón
+  &__icon {
+    @include flex-config(row, center, center);
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+  }
+
+  // Texto del botón (cuando coexiste con icono)
+  &__text {
+    line-height: 1;
+  }
+
+  // ---- Modificadores: Variantes de color ----
+
+  // Botón primario — Fondo navy, texto blanco
+  &--primary {
+    @include button-variant($color-navy, $color-white, $color-navy);
+  }
+
+  // Botón secundario — Fondo blanco, borde navy
+  &--secondary {
+    @include button-variant($color-white, $color-navy, $color-navy);
+
+    &:hover,
+    &:focus {
+      background-color: $color-navy;
+      color: $color-white;
+    }
+  }
+
+  // Botón accent — Fondo verde
+  &--accent {
+    @include button-variant($color-accent-green, $color-white, $color-accent-green);
+  }
+
+  // Botón outline blanco — Para fondos oscuros
+  &--outline-white {
+    @include button-variant(transparent, $color-white, $color-white);
+
+    &:hover,
+    &:focus {
+      background-color: $color-white;
+      color: $color-navy;
+    }
+  }
+
+  // Botón outline navy — Para fondos claros
+  &--outline-navy {
+    @include button-variant(transparent, $color-navy, $color-navy);
+
+    &:hover,
+    &:focus {
+      background-color: $color-navy;
+      color: $color-white;
+    }
+  }
+
+  // Botón transparente (ghost) — Sin borde
+  &--ghost {
+    background-color: transparent;
+    color: $color-navy;
+    border: 2px solid transparent;
+    padding-left: 0;
+    padding-right: 0;
+
+    &:hover,
+    &:focus {
+      color: color.adjust($color-navy, $lightness: -15%);
+      text-decoration: underline;
+    }
+  }
+
+  // ---- Modificadores: Tamaños ----
+
+  // Botón pequeño
+  &--sm {
+    padding: 0.5rem 1.25rem;
+    font-size: $fs-xs;
+  }
+
+  // Botón grande
+  &--lg {
+    padding: 1rem 2.25rem;
+    font-size: $fs-base;
+  }
+
+  // ---- Modificadores: Anchos ----
+
+  // Botón ancho completo
+  &--full {
+    width: 100%;
+  }
+
+  // Botón ancho completo solo en mobile
+  &--full-mobile {
+    @include respond-to(tablet) {
+      width: 100%;
+    }
+  }
+
+  // ---- Modificadores: Forma ----
+
+  // Botón redondeado (pill)
+  &--pill {
+    border-radius: $border-radius-pill;
+  }
+
+  // ---- Estados ----
+
+  &:disabled,
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+// ---- Grupo de botones ----
+.btn-group {
+  @include flex-config(row, flex-start, center, $spacing-sm);
+  flex-wrap: wrap;
+
+  @include respond-to(tablet) {
+    @include flex-config(column, flex-start, stretch, $spacing-xs);
+  }
+}

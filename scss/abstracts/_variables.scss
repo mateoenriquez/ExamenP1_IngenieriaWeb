@@ -1,0 +1,73 @@
+// ============================================
+// _variables.scss — Design Tokens (Sundance Spas)
+// ============================================
+
+// ---- Paleta de Colores ----
+$color-navy:         #14284b;
+$color-navy-dark:    #0d1b33;
+$color-bg-light:     #f4f5f7;
+$color-beige:        #f2efe9;
+$color-white:        #ffffff;
+$color-text:         #222222;
+$color-accent-green: #6ba539;
+
+// Colores auxiliares derivados del diseño
+$color-gray-light:   #e0e0e0;
+$color-gray-medium:  #999999;
+$color-gray-dark:    #555555;
+$color-overlay:      rgba(13, 27, 51, 0.55);
+
+// ---- Tipografías ----
+$font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+$font-sans:  'Open Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+// ---- Tamaños de fuente (escala modular) ----
+$fs-xs:   0.75rem;   // 12px
+$fs-sm:   0.875rem;  // 14px
+$fs-base: 1rem;      // 16px
+$fs-md:   1.125rem;  // 18px
+$fs-lg:   1.5rem;    // 24px
+$fs-xl:   2rem;      // 32px
+$fs-xxl:  2.5rem;    // 40px
+$fs-hero: 3rem;      // 48px
+
+// ---- Pesos tipográficos ----
+$fw-light:    300;
+$fw-regular:  400;
+$fw-semibold: 600;
+$fw-bold:     700;
+
+// ---- Espaciado (sistema 8px) ----
+$spacing-xs:   0.5rem;   // 8px
+$spacing-sm:   1rem;     // 16px
+$spacing-md:   1.5rem;   // 24px
+$spacing-lg:   2rem;     // 32px
+$spacing-xl:   3rem;     // 48px
+$spacing-xxl:  4rem;     // 64px
+$spacing-hero: 5rem;     // 80px
+
+// ---- Breakpoints ----
+$bp-mobile:  480px;
+$bp-tablet:  768px;
+$bp-desktop: 1024px;
+$bp-wide:    1280px;
+
+// ---- Anchos máximos ----
+$max-width-content: 1200px;
+$max-width-narrow:  900px;
+
+// ---- Bordes y sombras ----
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$border-radius-pill: 50px;
+
+$shadow-sm:   0 2px 4px rgba(0, 0, 0, 0.08);
+$shadow-md:   0 4px 12px rgba(0, 0, 0, 0.12);
+$shadow-lg:   0 8px 24px rgba(0, 0, 0, 0.16);
+$shadow-card: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+// ---- Transiciones ----
+$transition-fast:   0.2s ease;
+$transition-base:   0.3s ease;
+$transition-slow:   0.5s ease;

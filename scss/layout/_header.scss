@@ -1,0 +1,265 @@
+// ============================================
+// _header.scss — Header & Hero Layout (Sundance Spas)
+// ============================================
+// Flexbox: navbar alignment (logo, links, CTA)
+// ============================================
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// ---- HEADER / NAVBAR ----
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  padding: $spacing-sm 0;
+
+  // Container: Flexbox for horizontal alignment
+  &__container {
+    @include container;
+    @include flex-config(row, space-between, center);
+  }
+
+  // ---- Hamburger Button (Mobile only) ----
+  &__menu-btn {
+    @include flex-config(column, center, center);
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: $spacing-xs;
+    z-index: 101;
+
+    @include respond-to(desktop-up) {
+      display: none;
+    }
+  }
+
+  &__menu-icon {
+    @include flex-config(column, center, center, 5px);
+    width: 24px;
+  }
+
+  &__menu-line {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: $color-white;
+    border-radius: 2px;
+    transition: all $transition-base;
+  }
+
+  // ---- Logo ----
+  &__logo {
+    display: block;
+    z-index: 101;
+
+    @include respond-to(tablet) {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  &__logo-img {
+    height: 28px;
+    width: auto;
+
+    @include respond-to(desktop-up) {
+      height: 34px;
+    }
+  }
+
+  // ---- Desktop Navigation ----
+  &__nav {
+    display: none;
+
+    @include respond-to(desktop-up) {
+      @include flex-config(row, space-between, center);
+    }
+  }
+
+  &__nav-list {
+    @include flex-config(row, center, center, $spacing-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__nav-item {
+    position: relative;
+  }
+
+  &__nav-link {
+    @include typography($font-sans, $fs-sm, $fw-semibold);
+    color: $color-white;
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    padding: $spacing-xs 0;
+    position: relative;
+    transition: opacity $transition-fast;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: $color-white;
+      transition: width $transition-base;
+    }
+
+    &:hover,
+    &:focus {
+      opacity: 0.85;
+      color: $color-white;
+
+      &::after {
+        width: 100%;
+      }
+    }
+  }
+
+  // ---- Actions (Location + CTA) ----
+  &__actions {
+    @include flex-config(row, flex-end, center, $spacing-sm);
+    z-index: 101;
+  }
+
+  &__location {
+    @include flex-config(row, center, center);
+    color: $color-white;
+    width: 40px;
+    height: 40px;
+    transition: opacity $transition-fast;
+
+    &:hover {
+      opacity: 0.8;
+      color: $color-white;
+    }
+
+    @include respond-to(desktop-up) {
+      display: none;
+    }
+  }
+
+  &__location-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  // CTA: hidden on mobile, visible on desktop
+  &__cta {
+    display: none;
+
+    @include respond-to(desktop-up) {
+      display: inline-flex;
+    }
+  }
+}
+
+// ---- HERO SECTION ----
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+
+  @include respond-to(desktop-up) {
+    min-height: 85vh;
+  }
+
+  // ---- Background Media ----
+  &__media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  // ---- Dark Overlay ----
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(13, 27, 51, 0.3) 0%,
+      rgba(13, 27, 51, 0.55) 50%,
+      rgba(13, 27, 51, 0.7) 100%
+    );
+  }
+
+  // ---- Content ----
+  &__content {
+    position: relative;
+    z-index: 10;
+    @include container($max-width-narrow);
+    @include flex-config(column, center, center);
+    min-height: 100vh;
+    min-height: 100svh;
+    text-align: center;
+    padding-top: $spacing-hero;
+    padding-bottom: $spacing-xxl;
+
+    @include respond-to(desktop-up) {
+      min-height: 85vh;
+      @include flex-config(column, center, flex-start);
+      text-align: left;
+      max-width: $max-width-content;
+    }
+  }
+
+  &__subtitle {
+    @include typography($font-sans, $fs-sm, $fw-semibold);
+    color: $color-white;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: $spacing-sm;
+    opacity: 0.9;
+  }
+
+  &__title {
+    @include typography($font-serif, $fs-xxl, $fw-bold, 1.15);
+    color: $color-white;
+    margin-bottom: $spacing-md;
+
+    @include respond-to(tablet-up) {
+      font-size: $fs-hero;
+    }
+
+    @include respond-to(desktop-up) {
+      font-size: 3.5rem;
+    }
+  }
+
+  &__description {
+    @include typography($font-sans, $fs-base, $fw-regular, 1.7);
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: $spacing-lg;
+    max-width: 540px;
+
+    @include respond-to(desktop-up) {
+      font-size: $fs-md;
+    }
+  }
+
+  &__btn {
+    margin-top: $spacing-xs;
+  }
+}
