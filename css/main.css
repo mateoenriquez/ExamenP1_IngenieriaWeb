@@ -338,16 +338,17 @@ section {
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
-  height: 100%;
+  flex: 0 0 100%;
+  min-width: 0;
+  height: auto;
   background-color: #ffffff;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease;
   scroll-snap-align: start;
 }
 .spa-card:hover {
-  transform: translateY(-4px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 .spa-card__image-box {
@@ -1702,8 +1703,55 @@ section {
   transition: transform 0.2s ease;
 }
 
+@keyframes slideCards {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(0);
+  }
+  33% {
+    transform: translateX(-100%);
+  }
+  58% {
+    transform: translateX(-100%);
+  }
+  66% {
+    transform: translateX(-200%);
+  }
+  91% {
+    transform: translateX(-200%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes slideThumb {
+  0% {
+    left: 0;
+  }
+  25% {
+    left: 0;
+  }
+  33% {
+    left: 24px;
+  }
+  58% {
+    left: 24px;
+  }
+  66% {
+    left: 48px;
+  }
+  91% {
+    left: 48px;
+  }
+  100% {
+    left: 0;
+  }
+}
 .series-products {
   padding: 1.5rem;
+  overflow: hidden;
 }
 @media (min-width: 1024px) {
   .series-products {
@@ -1714,32 +1762,21 @@ section {
     align-items: stretch;
   }
 }
+.series-products:hover .series-products__grid {
+  animation-play-state: paused;
+}
+.series-products:hover .series-products__scrollbar-thumb {
+  animation-play-state: paused;
+}
 .series-products__grid {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 75%;
-  gap: 1.5rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 1rem;
-  scrollbar-width: none;
-}
-.series-products__grid::-webkit-scrollbar {
-  display: none;
-}
-@media (min-width: 768px) {
-  .series-products__grid {
-    grid-auto-columns: 42%;
-  }
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0;
+  animation: slideCards 12s ease-in-out infinite;
 }
 @media (min-width: 1024px) {
   .series-products__grid {
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-flow: row;
-    overflow-x: visible;
-    scroll-snap-type: none;
-    padding-bottom: 0;
+    gap: 1.5rem;
   }
 }
 .series-products__scrollbar {
@@ -1748,11 +1785,6 @@ section {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-}
-@media (min-width: 1024px) {
-  .series-products__scrollbar {
-    display: none;
-  }
 }
 .series-products__scrollbar-track {
   display: block;
@@ -1772,7 +1804,7 @@ section {
   position: absolute;
   left: 0;
   top: 0;
-  transition: left 0.2s ease;
+  animation: slideThumb 12s ease-in-out infinite;
 }
 
 .footer {

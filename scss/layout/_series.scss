@@ -126,42 +126,77 @@
   }
 }
 
+// ============================================
+// @keyframes — Auto-slide carousel for product cards
+// Shows each of the 3 cards for ~3s, slides to the next,
+// then loops infinitely. Total cycle = 12s (3 cards × 4s each:
+// 3s pause + 1s transition).
+// ============================================
+
+// Keyframe percentages:
+// 0%   - 25%  → Card 1 visible  (3s pause)
+// 25%  - 33%  → Slide to Card 2 (1s transition)
+// 33%  - 58%  → Card 2 visible  (3s pause)
+// 58%  - 66%  → Slide to Card 3 (1s transition)
+// 66%  - 91%  → Card 3 visible  (3s pause)
+// 91%  - 100% → Slide back to Card 1 (1s transition)
+
+@keyframes slideCards {
+  0%    { transform: translateX(0); }
+  25%   { transform: translateX(0); }
+  33%   { transform: translateX(-100%); }
+  58%   { transform: translateX(-100%); }
+  66%   { transform: translateX(-200%); }
+  91%   { transform: translateX(-200%); }
+  100%  { transform: translateX(0); }
+}
+
+// Scrollbar thumb animation synced with slideCards
+@keyframes slideThumb {
+  0%    { left: 0; }
+  25%   { left: 0; }
+  33%   { left: 24px; }
+  58%   { left: 24px; }
+  66%   { left: 48px; }
+  91%   { left: 48px; }
+  100%  { left: 0; }
+}
+
 // ---- SERIES PRODUCTS (card grid + scrollbar) ----
 .series-products {
   padding: $spacing-md;
+  overflow: hidden; // Clip the sliding cards
 
   @include respond-to(desktop-up) {
     padding: $spacing-lg $spacing-xl;
     @include flex-config(column, center, stretch);
   }
 
-  // Product cards grid — horizontal scroll on mobile, 3-col grid on desktop
+  // Pause BOTH animations (cards + thumb) when hovering the whole container
+  // This prevents desync between the two @keyframes
+  &:hover {
+    .series-products__grid {
+      animation-play-state: paused;
+    }
+
+    .series-products__scrollbar-thumb {
+      animation-play-state: paused;
+    }
+  }
+
+  // Product cards grid — auto-sliding carousel
   &__grid {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 75%;
-    gap: $spacing-md;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: $spacing-sm;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0; // No gap — each card is 100% width
 
-    // Hide native scrollbar
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-      display: none;
-    }
-
-    @include respond-to(tablet-up) {
-      grid-auto-columns: 42%;
-    }
+    // Auto-slide animation: 12s total, infinite loop
+    animation: slideCards 12s ease-in-out infinite;
 
     @include respond-to(desktop-up) {
-      grid-template-columns: repeat(3, 1fr);
-      grid-auto-flow: row;
-      overflow-x: visible;
-      scroll-snap-type: none;
-      padding-bottom: 0;
+      // On desktop: keep flex for the animation
+      // Each card becomes 1/3 and we adjust the translateX
+      gap: $spacing-md;
     }
   }
 
@@ -169,10 +204,6 @@
   &__scrollbar {
     margin-top: $spacing-sm;
     @include flex-config(row, center, center);
-
-    @include respond-to(desktop-up) {
-      display: none;
-    }
   }
 
   &__scrollbar-track {
@@ -194,6 +225,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    transition: left $transition-fast;
+    // Sync thumb position with card sliding — same duration & timing
+    animation: slideThumb 12s ease-in-out infinite;
   }
 }

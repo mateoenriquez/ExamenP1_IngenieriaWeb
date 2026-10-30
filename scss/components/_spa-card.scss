@@ -12,16 +12,18 @@
 // ---- BLOQUE: .spa-card ----
 .spa-card {
   @include flex-config(column, space-between, stretch);
-  height: 100%;
+  // Each card takes full container width for the sliding carousel
+  flex: 0 0 100%;
+  min-width: 0; // Prevent flex overflow
+  height: auto;
   background-color: $color-white;
   border-radius: $border-radius-md;
   overflow: hidden;
   box-shadow: $shadow-card;
-  transition: transform $transition-base, box-shadow $transition-base;
+  transition: box-shadow $transition-base;
   scroll-snap-align: start;
 
   &:hover {
-    transform: translateY(-4px);
     box-shadow: $shadow-md;
   }
 
